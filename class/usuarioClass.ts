@@ -38,12 +38,12 @@ export class UsuarioClass {
     const avatar = req.body.avatar;
     const telefono = req.body.telefono;
     const direccion = {
-      provincia: req.body.provincia,
-      distrito: req.body.distrito,
-      corregimiento: req.body.corregimiento,
-      direccion: req.body.direccion,
+      provincia: req.body.direccion.provincia,
+      distrito: req.body.direccion.distrito,
+      corregimiento: req.body.direccion.corregimiento,
+      direccion: req.body.direccion.direccion,
     };
-    const fechaRegistro = moment.tz("America/Bogota").format("DD-MM-YYYY");
+    const fechaRegistro = moment.tz("America/Bogota").format("YYYY-MM-DD");
 
     // Insertar usuario en DB
     const nuevoUsuario = new Usuario({
@@ -61,6 +61,8 @@ export class UsuarioClass {
       if (err) {
         return this.respuestaJson(false, "Error al crear usuario", resp, err);
       } else {
+        const server = Server.instance;
+        server.io.emit("cargar-usuarios", {});
         return this.respuestaJson(
           true,
           "Usuario creado",
@@ -280,12 +282,17 @@ export class UsuarioClass {
             contSesion: 0,
           };
 
+          // console.log(query)
+          // return;
+
           if (!query.nombre) {
             query.nombre = usuarioDB.nombre;
           }
 
           if (!query.password) {
             query.password = usuarioDB.password;
+          } else {
+            query.password = bcrypt.hashSync(req.body.password, 10);
           }
 
           if (!query.avatar) {
@@ -319,9 +326,6 @@ export class UsuarioClass {
           if (query.estado === "null" || query.estado === undefined) {
             query.estado = usuarioDB.estado;
           }
-
-          const contSesion = Number(usuarioDB.contSesion);
-          query.contSesion = contSesion + 1;
 
           Usuario.findByIdAndUpdate(
             idUsuario,
@@ -461,7 +465,8 @@ export class UsuarioClass {
 
         const mailOptions: SMTPTransport.Options = {
           from: "JJBOXPTY <jjbox507@gmail.com>",
-          to: "jjbox507@gmail.com",
+          // to: "jjbox507@gmail.com",
+          to: "jomaromu@gmail.com",
           subject: "Mensaje desde Contacto",
           html: this.templateMensajeContacto(data),
         };
@@ -485,7 +490,7 @@ export class UsuarioClass {
         resp.json({
           ok: false,
           mensaje: "No se pudo enviar el correo, intentelo más tarde",
-          err
+          err,
         });
         // console.log(err);
       });
