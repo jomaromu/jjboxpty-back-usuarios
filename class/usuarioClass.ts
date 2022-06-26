@@ -22,7 +22,7 @@ import { UsuarioInterface } from "../interfaces/usuario";
 
 import { environment } from "../environment/environment";
 
-let limite = 0;
+let limite = 0; 
 
 export class UsuarioClass {
   idRef: any;
@@ -465,8 +465,8 @@ export class UsuarioClass {
 
         const mailOptions: SMTPTransport.Options = {
           from: "JJBOXPTY <jjbox507@gmail.com>",
-          // to: "jjbox507@gmail.com",
-          to: "jomaromu@gmail.com",
+          to: "jjbox507@gmail.com",
+          // to: "jomaromu@gmail.com",
           subject: "Mensaje desde Contacto",
           html: this.templateMensajeContacto(data),
         };
