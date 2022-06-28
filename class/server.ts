@@ -26,6 +26,7 @@ export default class Server {
         origin: true,
         credentials: true,
       },
+      path: "/users/",
     });
 
     this.escucharConexiones();
@@ -36,10 +37,10 @@ export default class Server {
   }
 
   private escucharConexiones() {
-    console.log("Escuchando conexiones");
+    console.log("Escuchando conexiones de usuarios");
 
-    this.io.on("connection", (cliente) => {
-      console.log(`Cliente conectado`);
+    this.io.of("/usuarios").on("connection", (cliente) => {
+      console.log(`Cliente conectado a usuarios`);
     });
   }
 
