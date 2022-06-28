@@ -26,7 +26,7 @@ export default class Server {
         origin: true,
         credentials: true,
       },
-      path: "/users/",
+      // path: "/usuarios/",
     });
 
     this.escucharConexiones();

@@ -22,7 +22,7 @@ import { UsuarioInterface } from "../interfaces/usuario";
 
 import { environment } from "../environment/environment";
 
-let limite = 0; 
+let limite = 0;
 
 export class UsuarioClass {
   idRef: any;
@@ -62,7 +62,7 @@ export class UsuarioClass {
         return this.respuestaJson(false, "Error al crear usuario", resp, err);
       } else {
         const server = Server.instance;
-        server.io.emit("cargar-usuarios", {});
+        server.io.of("/usuarios").emit("cargar-usuarios", {});
         return this.respuestaJson(
           true,
           "Usuario creado",
@@ -233,7 +233,7 @@ export class UsuarioClass {
           );
         } else {
           const server = Server.instance;
-          server.io.emit("obtener-usuarios", {
+          server.io.of('/usuarios').emit("obtener-usuarios", {
             ok: true,
             mensaje: "Usuarios encontrados",
             datas: usuariosDB,
@@ -342,7 +342,7 @@ export class UsuarioClass {
               } else {
                 // console.log(idUsuarioSocket);
                 const server = Server.instance;
-                server.io.to(idUsuarioSocket).emit("obtener-usuario-editado", {
+                server.io.of('/usuarios').to(idUsuarioSocket).emit("obtener-usuario-editado", {
                   ok: true,
                   mensaje: "Usuario editado",
                   data: usuarioDB,
@@ -405,7 +405,7 @@ export class UsuarioClass {
         return this.respuestaJson(false, "Error al buscar Usuarios", resp, err);
       } else {
         const server = Server.instance;
-        server.io.emit("obtener-usuarios-criterio", {
+        server.io.of('/usuarios').emit("obtener-usuarios-criterio", {
           ok: true,
           mensaje: "Usuarios encontrados",
           datas: usuariosDB,
