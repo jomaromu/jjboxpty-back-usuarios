@@ -23,7 +23,7 @@ export default class Server {
     // configuro io
     this.io = new socketIO.Server(this.httpServer, {
       cors: {
-        origin: "https://back.jjboxpty.com",
+        origin: "*",
         methods: ["GET", "POST", "PUT", "DELETE"],
         // origin: true,
         // credentials: true,
