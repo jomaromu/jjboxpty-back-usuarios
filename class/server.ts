@@ -28,21 +28,21 @@ export default class Server {
         // origin: true,
         // credentials: true,
       },
-      // path: "/usuarios/",
-    });
-
+      // path: "/usuarios/", 
+    }); 
+ 
     this.escucharConexiones();
   }
 
   public static get instance() {
-    return this._instance || (this._instance = new this());
+    return this._instance || (this._instance = new this()); 
   }
 
   private escucharConexiones() {
     console.log("Escuchando conexiones de usuarios");
 
     this.io.of("/usuarios").on("connection", (cliente) => {
-      console.log(`Cliente conectado a usuarios`);
+      console.log(`Cliente conectado a usuarios`); 
     });
   }
 
